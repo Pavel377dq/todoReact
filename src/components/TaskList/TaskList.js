@@ -1,31 +1,37 @@
-import React from "react";
-import Task from "../Task/Task";
-import "./TaskList.css"
-import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-//import { el } from "date-fns/locale";
-const TaskList = ( {tasksFromServer,onDeleted,onToggleCompleted}) => {
+import React from 'react'
 
+import Task from '../Task/Task'
 
-   
-   const tasks = tasksFromServer.map((item) => {
+import './TaskList.css'
+import PropTypes from 'prop-types'
 
-     const {id} = item;
-      
-      return (
-        
-              <Task {...item}
-               onDeleted={()=>onDeleted(id)}
-            onToggleCompleted={()=>onToggleCompleted(id)}/>
-              
-      
-      );
-   });
+const TaskList = ({ tasksFromServer, onDeleted, onToggleCompleted }) => {
+  return (
+    <ul className="todo-list">
+      {tasksFromServer.map((item) => {
+        const { id } = item
 
-   return (
-      <ul className="todo-list">
-         {tasks}
-      </ul>
-   );
+        return (
+          <Task
+            key={id}
+            {...item}
+            onDeleted={() => onDeleted(id)}
+            onToggleCompleted={() => onToggleCompleted(id)}
+          />
+        )
+      })}
+    </ul>
+  )
 }
 
-export default TaskList;
+TaskList.propTypes = {
+  tasksFromServer: PropTypes.array,
+  onDeleted: PropTypes.func.isRequired,
+  onToggleCompleted: PropTypes.func.isRequired,
+}
+
+TaskList.defaultProps = {
+  tasksFromServer: [{}],
+}
+
+export default TaskList
