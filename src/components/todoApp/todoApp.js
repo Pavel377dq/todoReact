@@ -1,8 +1,9 @@
+import { Component } from 'react';
 import TaskList from '../TaskList/TaskList';
 import Footer from '../Footer/Footer';
 import NewTaskForm from '../NewTaskForm/NewTaskForm';
-import KG from 'date-fns/locale/en-AU';
-import { Component } from 'react';
+
+
 import './todoApp.css';
 
 export default class App extends Component {
