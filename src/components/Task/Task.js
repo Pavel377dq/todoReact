@@ -29,7 +29,7 @@ export default class Task extends Component {
             </span>
           </label>
 
-          <button classa="icon icon-edit"></button>
+                    <button class="icon icon-edit"></button>
           <button className="icon icon-destroy" onClick={onDeleted}></button>
         </div>
       </li>
