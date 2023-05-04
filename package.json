@@ -20,8 +20,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
-    "prettier": "prettier --write ./src/**/*.js",
-    "FixAll": "npm run prettier && npm run lint:fix"
+    "format": "prettier --write ./src/**/*.js && prettier --write ./src/**/*.css",
+    "FixAll": "npm run format && npm run lint:fix"
   },
   "eslintConfig": {
     "extends": [

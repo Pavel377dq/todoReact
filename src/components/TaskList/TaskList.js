@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Task from '../Task/Task';
 import './TaskList.css';
 
-
 const TaskList = ({ tasksFromServer, onDeleted, onToggleCompleted }) => {
   return (
     <ul className="todo-list">

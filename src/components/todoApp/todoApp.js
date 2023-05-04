@@ -4,7 +4,6 @@ import TaskList from '../TaskList/TaskList';
 import Footer from '../Footer/Footer';
 import NewTaskForm from '../NewTaskForm/NewTaskForm';
 
-
 import './todoApp.css';
 
 export default class App extends Component {
