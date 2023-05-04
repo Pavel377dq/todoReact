@@ -9,6 +9,9 @@
     "plugin:react/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
+    "airbnb",
+    "plugin:jsx-a11y/recommended",
+    "plugin:react-hooks/recommended",
     "prettier"
   ],
   "parserOptions": {
