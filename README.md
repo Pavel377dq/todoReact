@@ -12,3 +12,5 @@ https://todo-pavel377dq.vercel.app/
 
   "parser": "babel-eslint" не стал применять тк почему-то при этом как-будто бы работает 
   только babel-eslint
+
+    Похоже не надо было в plugins указывать react, import тк они в extends
