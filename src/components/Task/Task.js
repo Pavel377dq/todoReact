@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
-import formatDistanceToNow from 'date-fns/formatDistanceToNow'
-import KG from 'date-fns/locale/en-AU'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import KG from 'date-fns/locale/en-AU';
+import PropTypes from 'prop-types';
 
 export default class Task extends Component {
   render() {
-    const { description, creatingTime, onDeleted, onToggleCompleted, completed } = this.props
+    const { description, creatingTime, onDeleted, onToggleCompleted, completed } = this.props;
 
-    let classNames = ''
+    let classNames = '';
     if (completed) {
-      classNames += 'completed'
+      classNames += 'completed';
     }
 
     return (
@@ -29,11 +29,11 @@ export default class Task extends Component {
             </span>
           </label>
 
-                    <button class="icon icon-edit"></button>
+          <button class="icon icon-edit"></button>
           <button className="icon icon-destroy" onClick={onDeleted}></button>
         </div>
       </li>
-    )
+    );
   }
 }
 
@@ -45,11 +45,11 @@ Task.propTypes = {
 
   onDeleted: PropTypes.func.isRequired,
   onToggleCompleted: PropTypes.func.isRequired,
-}
+};
 
 Task.defaultProps = {
   id: 7,
   description: 'Купить джип в Москве',
   completed: false,
   creatingTime: new Date(),
-}
+};

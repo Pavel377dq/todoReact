@@ -118,16 +118,8 @@ export default class App extends Component {
           <NewTaskForm onAddTask={this.addTask} />
         </header>
         <section className="main">
-          <TaskList
-            tasksFromServer={todoArr}
-            onDeleted={this.deleteTask}
-            onToggleCompleted={this.onToggleCompleted}
-          />
-          <Footer
-            onFilter={this.onFilter}
-            deleteCompleted={this.deleteCompleted}
-            count={needToDone}
-          />
+          <TaskList tasksFromServer={todoArr} onDeleted={this.deleteTask} onToggleCompleted={this.onToggleCompleted} />
+          <Footer onFilter={this.onFilter} deleteCompleted={this.deleteCompleted} count={needToDone} />
         </section>
       </section>
     );
