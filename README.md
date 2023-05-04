@@ -9,3 +9,6 @@ https://todo-pavel377dq.vercel.app/
 
  С помощью esling-config-prettier исправил возможные конфликты с prettier,
   при этом eslint не будет перезатирать правила prettier
+
+  "parser": "babel-eslint" не стал применять тк почему-то при этом как-будто бы работает 
+  только babel-eslint

@@ -21,7 +21,10 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
+  
+
   "plugins": ["react", "import"],
+
   "rules": {
     "linebreak-style": [0, "unix"],
     "quotes": ["error", "single"],
