@@ -5,25 +5,27 @@
   },
   "ignorePatterns": ["node_modules", "dist", "build"],
   "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:import/errors",
-    "plugin:import/warnings",
-    "airbnb",
-    "plugin:jsx-a11y/recommended",
-    "plugin:react-hooks/recommended",
+    "airbnb",//airbnb уже включает в себя все пакеты, которые нужно скачать в задании но правила для хуков не используются
+    "airbnb/hooks",
     "prettier"
   ],
+
+ 
+  "parser": "@babel/eslint-parser", 
+
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     },
-    "ecmaVersion": 12,
-    "sourceType": "module"
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "requireConfigFile": false,
+    "babelOptions": {
+      "presets": ["@babel/preset-react"]
+   }
   },
   
-
-  "plugins": ["react", "import"],
+  
 
   "rules": {
     "linebreak-style": [0, "unix"],
