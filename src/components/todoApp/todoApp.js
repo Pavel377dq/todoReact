@@ -8,13 +8,16 @@ import './todoApp.css';
 
 export default class App extends Component {
     maxId = 0;
-
-    state = {
-        arr: [],
-        completedArr: [],
-        activeArr: [],
-        buttonName: 'All',
-    };
+    constructor(props){
+        super(props)
+        this.state = {
+            arr: [],
+            completedArr: [],
+            activeArr: [],
+            buttonName: 'All',
+        };
+    }
+   
 
     deleteTask = (id) => {
         this.setState(({ arr }) => {
