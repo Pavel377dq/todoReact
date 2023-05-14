@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import Task from '../Task/Task';
 import './TaskList.css';
 
-function TaskList({ tasksFromServer, onDeleted, onToggleCompleted }) {
+function TaskList({ tasksFromServer, onDeleted, onToggleCompleted, editTask }) {
     return (
         <ul className="todo-list">
             {tasksFromServer.map((item) => {
@@ -15,7 +14,9 @@ function TaskList({ tasksFromServer, onDeleted, onToggleCompleted }) {
                         key={id}
                         {...item}
                         onDeleted={() => onDeleted(id)}
-                        onToggleCompleted={() => onToggleCompleted(id)}
+                        onToggleCompleted={onToggleCompleted}
+                        editTask={editTask}
+                        id={id}
                     />
                 );
             })}

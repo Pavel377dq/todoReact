@@ -11,10 +11,7 @@ export default class App extends Component {
 
     state = {
         arr: [
-            this.addTaskArray('Сделать пюрешку с котлетками'),
-            this.addTaskArray('ПОдтянуться'),
-            this.addTaskArray('Почитать'),
-            this.addTaskArray('Открыть окно'),
+          
         ],
         completedArr: [],
         activeArr: [],
@@ -32,13 +29,31 @@ export default class App extends Component {
         });
     };
 
-    addTaskArray(description) {
+
+   
+    editTask(id,text){
+        this.setState(({ arr }) => {
+            const idx = arr.findIndex((el) => el.id === id);
+            const el = arr[idx];
+            el.description = text;
+            const newArray = [...arr.slice(0, idx),el, ...arr.slice(idx + 1)];
+
+            return {
+                arr: newArray,
+            };
+        });
+    
+        console.log(this.state.arr)
+    }
+    addTaskArray(dataTask) {
         const date = new Date();
         return {
-            description,
+            description: dataTask.description,
             creatingTime: date,
             id: this.maxId++,
             completed: false,
+            minutes: dataTask.minutes,
+            seconds: dataTask.seconds
         };
     }
 
@@ -125,7 +140,8 @@ export default class App extends Component {
                     <TaskList
                         tasksFromServer={todoArr}
                         onDeleted={this.deleteTask}
-                        onToggleCompleted={this.onToggleCompleted}
+                        onToggleCompleted={this.onToggleCompleted.bind(this)}
+                        editTask={this.editTask.bind(this)}
                     />
                     <Footer onFilter={this.onFilter} deleteCompleted={this.deleteCompleted} count={needToDone} />
                 </section>

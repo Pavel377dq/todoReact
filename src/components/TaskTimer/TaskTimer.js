@@ -5,13 +5,15 @@ import './TaskTimer.css'
 export default class TaskTimer extends Component {
     constructor(props) {
         super(props);
-        //this.count = this.count.bind(this)
+
+        const {minutes, seconds} = this.props
+
         this.timerDate = new Date()
         this.count =0;
         this.subtrahend = new Date(this.timerDate.getFullYear(),this.timerDate.getMonth(),this.timerDate.getDate(),this.timerDate.getHours(),0,0)
-        this.deadline= new Date(this.timerDate.getFullYear(),this.timerDate.getMonth(),this.timerDate.getDate(),this.timerDate.getHours(),9,7);
-        this.state = { minutes:null,
-        seconds:null,
+        this.deadline= new Date(this.timerDate.getFullYear(),this.timerDate.getMonth(),this.timerDate.getDate(),this.timerDate.getHours(),minutes,seconds);
+        this.state = { minutes:minutes,
+        seconds:seconds,
         toggle: 'start'
       };
 
@@ -20,7 +22,7 @@ export default class TaskTimer extends Component {
 
 
     componentDidMount() {
-        
+
     }
 
     componentWillUnmount() {
@@ -44,7 +46,6 @@ export default class TaskTimer extends Component {
     }
 
     toggle(evt){
-      console.log('yes');
       evt.preventDefault();
       const button = document.querySelector('.toggle-timer');
 
@@ -52,7 +53,7 @@ export default class TaskTimer extends Component {
         this.setState({
           toggle: 'stop'
         })
-        button.innerText = 'Стоп'
+        button.innerText = 'stop'
         this.timerID = setInterval(() => this.tick(), 1000)
 
       }
@@ -60,7 +61,7 @@ export default class TaskTimer extends Component {
         this.setState({
           toggle: 'start'
         })
-        button.innerText = 'Старт'
+        button.innerText = 'Go'
 
         clearInterval(this.timerID);
       }
@@ -69,9 +70,8 @@ export default class TaskTimer extends Component {
     render() {
         return (
             <div className='timer'>
-                <h1>Привет, мир!</h1>
-                <h2>Минут {this.state.minutes} секунд {this.state.seconds}.</h2>
-                <button className='toggle-timer' onClick={(e) =>this.toggle(e)}>Запустить</button>
+                <span>minutes {this.state.minutes} seconds {this.state.seconds}</span>
+                <button className='toggle-timer' onClick={(e) =>this.toggle(e)}>Go</button>
             </div>
         );
     }

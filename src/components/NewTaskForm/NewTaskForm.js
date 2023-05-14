@@ -9,9 +9,10 @@ export default class NewTaskForm extends Component {
     };
 
     onSubmit = (evt) => {
-        console.log('ok')
+       
         evt.preventDefault();
-        this.props.onAddTask(this.state.description);
+        const {...props} = this.state
+        this.props.onAddTask(props);
         this.setState({
             description: '',
             seconds: '',
@@ -23,30 +24,37 @@ export default class NewTaskForm extends Component {
         if(evt.target.name ==='description'){
         this.setState({
             description: evt.target.value,
+            
+          
         });
-    }
+         }
+
+        if(evt.target.name ==='minutes'){
+            this.setState({
+             
+                minutes: evt.target.value,
+            });
+        }
+
+        if(evt.target.name ==='seconds'){
+            this.setState({
+             
+                seconds: evt.target.value,
+            });
+        }
+    
     };
 
-    onSecondsChange = (evt) => {
-        this.setState({
-            seconds: evt.target.value,
-        });
-    };
 
-    onMinutesChange = (evt) => {
-        this.setState({
-            minutes: evt.target.value,
-        });
-    };
 
     render() {
         return (
             <form className="new-todo-form" onSubmit={this.onSubmit}>
                 
-                <input onChange={this.onMinutesChange} value={this.state.minutes} className="new-todo-form__timer" placeholder="Min"  />
-                <input  onChange={this.onSecondsChange}  value={this.state.seconds}    className="new-todo-form__timer"   placeholder="Sec"  />
+                <input onChange={this.onDescriptionChange} name="minutes" value={this.state.minutes} className="new-todo-form__timer" placeholder="Min"  />
+                <input  onChange={this.onDescriptionChange}  value={this.state.seconds}    className="new-todo-form__timer" name="seconds"  placeholder="Sec"  />
                 <button type="submit" variant="contained" >
-              Add
+              Add Task
             </button>
                 <input 
                     className="new-todo"
