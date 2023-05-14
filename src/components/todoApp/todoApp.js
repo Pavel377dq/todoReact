@@ -10,9 +10,7 @@ export default class App extends Component {
     maxId = 0;
 
     state = {
-        arr: [
-          
-        ],
+        arr: [],
         completedArr: [],
         activeArr: [],
         buttonName: 'All',
@@ -29,21 +27,19 @@ export default class App extends Component {
         });
     };
 
-
-   
-    editTask(id,text){
+    editTask(id, text) {
         this.setState(({ arr }) => {
             const idx = arr.findIndex((el) => el.id === id);
             const el = arr[idx];
             el.description = text;
-            const newArray = [...arr.slice(0, idx),el, ...arr.slice(idx + 1)];
+            const newArray = [...arr.slice(0, idx), el, ...arr.slice(idx + 1)];
 
             return {
                 arr: newArray,
             };
         });
-    
-        console.log(this.state.arr)
+
+        console.log(this.state.arr);
     }
     addTaskArray(dataTask) {
         const date = new Date();
@@ -53,7 +49,7 @@ export default class App extends Component {
             id: this.maxId++,
             completed: false,
             minutes: dataTask.minutes,
-            seconds: dataTask.seconds
+            seconds: dataTask.seconds,
         };
     }
 

@@ -1,18 +1,18 @@
-.timer{
-   width: 450px !important;
-   height: 50px !important;
-   color:gray;
-   display: flex;
-   align-items: center;
-   justify-content:space-between;
-   padding: 15px 85px 15px 60px;
+.timer {
+    width: 450px !important;
+    height: 50px !important;
+    color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 85px 15px 60px;
 }
 
-.toggle-timer{
-   width: 50px !important;
-   height: 50px !important;
-   color:  white;
-   background-color: #737373;
-   border-radius: 50%;
-   margin-right: 50px;
+.toggle-timer {
+    width: 50px !important;
+    height: 50px !important;
+    color: white;
+    background-color: #737373;
+    border-radius: 50%;
+    margin-right: 50px;
 }
