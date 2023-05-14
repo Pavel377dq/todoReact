@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-bind */
+/* eslint-disable no-plusplus */
 import { Component } from 'react';
 
 import TaskList from '../TaskList/TaskList';
@@ -8,8 +10,9 @@ import './todoApp.css';
 
 export default class App extends Component {
     maxId = 0;
+
     constructor(props){
-        super(props)
+        super(props);
         this.state = {
             arr: [],
             completedArr: [],
@@ -30,31 +33,9 @@ export default class App extends Component {
         });
     };
 
-    editTask(id, text) {
-        this.setState(({ arr }) => {
-            const idx = arr.findIndex((el) => el.id === id);
-            const el = arr[idx];
-            el.description = text;
-            const newArray = [...arr.slice(0, idx), el, ...arr.slice(idx + 1)];
+   
 
-            return {
-                arr: newArray,
-            };
-        });
-
-        console.log(this.state.arr);
-    }
-    addTaskArray(dataTask) {
-        const date = new Date();
-        return {
-            description: dataTask.description,
-            creatingTime: date,
-            id: this.maxId++,
-            completed: false,
-            minutes: dataTask.minutes,
-            seconds: dataTask.seconds,
-        };
-    }
+   
 
     addTask = (text) => {
         const newItem = this.addTaskArray(text);
@@ -116,17 +97,45 @@ export default class App extends Component {
         });
     };
 
+    editTask(id, text) {
+        this.setState(({ arr }) => {
+            const idx = arr.findIndex((el) => el.id === id);
+            const el = arr[idx];
+            el.description = text;
+            const newArray = [...arr.slice(0, idx), el, ...arr.slice(idx + 1)];
+
+            return {
+                arr: newArray,
+            };
+        });
+
+        
+    }
+
+    addTaskArray(dataTask) {
+        const date = new Date();
+        return {
+            description: dataTask.description,
+            creatingTime: date,
+            id: this.maxId++,
+            completed: false,
+            minutes: dataTask.minutes,
+            seconds: dataTask.seconds,
+        };
+    }
+
     render() {
-        const needToDone = this.state.arr.filter((el) => !el.completed).length;
+        const { arr, activeArr, completedArr} = this.state;
+        const needToDone = arr.filter((el) => !el.completed).length;
 
         let todoArr;
         const { buttonName } = this.state;
         if (buttonName === 'All') {
-            todoArr = this.state.arr;
+            todoArr = arr;
         } else if (buttonName === 'Active') {
-            todoArr = this.state.activeArr;
+            todoArr = activeArr;
         } else if (buttonName === 'Completed') {
-            todoArr = this.state.completedArr;
+            todoArr = completedArr;
         }
 
         return (

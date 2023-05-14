@@ -1,17 +1,24 @@
+/* eslint-disable jsx-a11y/no-autofocus */
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import './NewTaskForm.css';
 
 export default class NewTaskForm extends Component {
-    state = {
-        description: '',
-        seconds: '',
-        minutes: '',
-    };
+    constructor(props){
+        super(props);
+        this.state = {
+            description: '',
+            seconds: '',
+            minutes: '',
+        };
+    }
+   
 
     onSubmit = (evt) => {
         evt.preventDefault();
         const { ...props } = this.state;
-        this.props.onAddTask(props);
+        const newLocal = this;
+        newLocal.props.onAddTask(props);
         this.setState({
             description: '',
             seconds: '',
@@ -64,7 +71,7 @@ export default class NewTaskForm extends Component {
                     onChange={this.onDescriptionChange}
                     value={this.state.description}
                     placeholder="What needs to be done?"
-                    name="description"
+                    name="description"                    
                     autoFocus
                 />
             </form>

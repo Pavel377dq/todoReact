@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import { Component } from 'react';
 import './TaskTimer.css';
 
@@ -25,7 +26,7 @@ export default class TaskTimer extends Component {
             minutes,
             seconds
         );
-        this.state = { minutes: minutes, seconds: seconds, toggle: 'start' };
+        this.state = { minutes, seconds, toggle: 'start' };
     }
 
     componentDidMount() {}
@@ -35,7 +36,8 @@ export default class TaskTimer extends Component {
     }
 
     tick() {
-        if (this.state.minutes === 0 && this.state.seconds === 0) {
+      const {minutes, seconds} = this.state;
+        if (minutes === 0 && seconds === 0) {
             clearInterval(this.timerID);
             return;
         }
@@ -50,14 +52,15 @@ export default class TaskTimer extends Component {
     toggle(evt) {
         evt.preventDefault();
         const button = document.querySelector('.toggle-timer');
+        const {toggle} = this.state;
 
-        if (this.state.toggle === 'start') {
+        if (toggle === 'start') {
             this.setState({
                 toggle: 'stop',
             });
             button.innerText = 'stop';
             this.timerID = setInterval(() => this.tick(), 1000);
-        } else if (this.state.toggle === 'stop') {
+        } else if (toggle === 'stop') {
             this.setState({
                 toggle: 'start',
             });
@@ -68,12 +71,16 @@ export default class TaskTimer extends Component {
     }
 
     render() {
+
+      const {
+         minutes,seconds
+      } = this.state;
         return (
             <div className="timer">
                 <span>
-                    minutes {this.state.minutes} seconds {this.state.seconds}
+                    minutes {minutes} seconds {seconds}
                 </span>
-                <button className="toggle-timer" onClick={(e) => this.toggle(e)}>
+                <button className="toggle-timer" type='button' onClick={(e) => this.toggle(e)}>
                     Go
                 </button>
             </div>

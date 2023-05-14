@@ -1,5 +1,8 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import Task from '../Task/Task';
 import './TaskList.css';
 
