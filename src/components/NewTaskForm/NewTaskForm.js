@@ -67,6 +67,7 @@ export default class NewTaskForm extends Component {
                     type="number"
                     min={0}
                     max={59}
+                    required
                 />
                 <input
                     onChange={this.onDescriptionChange}
@@ -77,6 +78,7 @@ export default class NewTaskForm extends Component {
                     type="number"
                     min={0}
                     max={59}
+                    required
                 />
                 <button className="add" type="submit" variant="contained">
                     add task

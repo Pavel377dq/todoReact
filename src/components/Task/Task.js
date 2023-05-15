@@ -75,7 +75,9 @@ export default class Task extends Component {
             !isNaN(seconds) && !isNaN(minutes) && minutes !== '' && seconds !== '' ? (
                 <TaskTimer seconds={seconds} minutes={minutes} />
             ) : (
-                <span className="warning">timer value set incorrectly</span>
+                <span className="warning">timer value
+                set incorrectly
+                </span>
             );
 
         return (
