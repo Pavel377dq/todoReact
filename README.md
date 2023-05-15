@@ -1,6 +1,6 @@
 My Todo
 
- Ссылка на хостинг versel https://todo-pavel377dq.vercel.app 
+хостинг vercel https://todo-pavel377dq.vercel.app 
 
 Для .eslintrc.json
 
