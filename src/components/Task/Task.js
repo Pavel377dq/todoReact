@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/control-has-associated-label */
@@ -65,7 +66,7 @@ export default class Task extends Component {
     }
 
     render() {
-        const { description, creatingTime, onDeleted, completed, seconds, minutes, id } = this.props;
+        const { description, creatingTime, onDeleted, completed, seconds, minutes, id,saveTime } = this.props;
 
         let classNames = '';
         if (completed) {
@@ -73,7 +74,7 @@ export default class Task extends Component {
         }
         const timer =
             !isNaN(seconds) && !isNaN(minutes) && minutes !== '' && seconds !== '' ? (
-                <TaskTimer seconds={seconds} minutes={minutes} />
+                <TaskTimer seconds={seconds} minutes={minutes} saveTime={saveTime} id={id} />
             ) : (
                 <span className="warning">timer value
                 set incorrectly

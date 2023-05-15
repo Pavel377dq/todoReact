@@ -124,6 +124,20 @@ export default class App extends Component {
         };
     }
 
+    saveTime(id,minutes,seconds){
+        this.setState(({ arr }) => {
+            const idx = arr.findIndex((el) => el.id === id);
+            const el = arr[idx];
+            el.minutes = minutes;
+            el.seconds = seconds;
+            const newArray = [...arr.slice(0, idx), el, ...arr.slice(idx + 1)];
+
+            return {
+                arr: newArray,
+            };
+        });
+    }
+
     render() {
         const { arr, activeArr, completedArr} = this.state;
         const needToDone = arr.filter((el) => !el.completed).length;
@@ -150,6 +164,7 @@ export default class App extends Component {
                         onDeleted={this.deleteTask}
                         onToggleCompleted={this.onToggleCompleted.bind(this)}
                         editTask={this.editTask.bind(this)}
+                        saveTime={this.saveTime.bind(this)}
                     />
                     <Footer onFilter={this.onFilter} deleteCompleted={this.deleteCompleted} count={needToDone} />
                 </section>

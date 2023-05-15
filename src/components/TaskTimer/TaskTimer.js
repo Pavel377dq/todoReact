@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-plusplus */
 import { Component } from 'react';
 import './TaskTimer.css';
@@ -6,7 +7,7 @@ export default class TaskTimer extends Component {
     constructor(props) {
         super(props);
 
-        const { minutes, seconds } = this.props;
+        const { minutes, seconds} = this.props;
 
         this.timerDate = new Date();
         this.count = 0;
@@ -34,6 +35,9 @@ export default class TaskTimer extends Component {
     }
 
     componentWillUnmount() {
+        const {minutes,seconds} = this.state;
+        const {id,saveTime} = this.props;
+        saveTime(id,minutes,seconds);
         clearInterval(this.timerID);
     }
 
@@ -51,8 +55,8 @@ export default class TaskTimer extends Component {
         });
     }
 
-    toggle(evt) {
-        evt.preventDefault();
+    toggle() {
+       
         const button = document.querySelector('.toggle-timer');
         const {toggle} = this.state;
 
@@ -82,7 +86,7 @@ export default class TaskTimer extends Component {
                 <span>
                     minutes {minutes} seconds {seconds}
                 </span>
-                <button className="toggle-timer" type='button' onClick={(e) => this.toggle(e)}>
+                <button className="toggle-timer" type='button' onClick={() => this.toggle()}>
                     Stop
                 </button>
             </div>
