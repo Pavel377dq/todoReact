@@ -1,3 +1,6 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable no-console */
+/* eslint-disable quotes */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable no-plusplus */
 import { Component } from 'react';
@@ -23,6 +26,7 @@ export default class App extends Component {
    
 
     deleteTask = (id) => {
+        console.log("dcscsdcds");
         this.setState(({ arr }) => {
             const idx = arr.findIndex((el) => el.id === id);
             const newArray = [...arr.slice(0, idx), ...arr.slice(idx + 1)];
@@ -125,9 +129,11 @@ export default class App extends Component {
     }
 
     saveTime(id,minutes,seconds){
+        if(this.state.arr.length !==0 &&  this.state.arr.findIndex((el) => el.id === id)){
         this.setState(({ arr }) => {
             const idx = arr.findIndex((el) => el.id === id);
             const el = arr[idx];
+
             el.minutes = minutes;
             el.seconds = seconds;
             const newArray = [...arr.slice(0, idx), el, ...arr.slice(idx + 1)];
@@ -136,6 +142,7 @@ export default class App extends Component {
                 arr: newArray,
             };
         });
+    }
     }
 
     render() {
