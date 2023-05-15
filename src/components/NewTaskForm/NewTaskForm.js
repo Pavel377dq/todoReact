@@ -49,23 +49,7 @@ export default class NewTaskForm extends Component {
     render() {
         return (
             <form className="new-todo-form" onSubmit={this.onSubmit}>
-                <input
-                    onChange={this.onDescriptionChange}
-                    name="minutes"
-                    value={this.state.minutes}
-                    className="new-todo-form__timer"
-                    placeholder="Min"
-                />
-                <input
-                    onChange={this.onDescriptionChange}
-                    value={this.state.seconds}
-                    className="new-todo-form__timer"
-                    name="seconds"
-                    placeholder="Sec"
-                />
-                <button type="submit" variant="contained">
-                    Add Task
-                </button>
+                
                 <input
                     className="new-todo"
                     onChange={this.onDescriptionChange}
@@ -74,6 +58,29 @@ export default class NewTaskForm extends Component {
                     name="description"                    
                     autoFocus
                 />
+                <input
+                    onChange={this.onDescriptionChange}
+                    name="minutes"
+                    value={this.state.minutes}
+                    className="new-todo-form__timer"
+                    placeholder="Min"
+                    type="number"
+                    min={0}
+                    max={59}
+                />
+                <input
+                    onChange={this.onDescriptionChange}
+                    value={this.state.seconds}
+                    className="new-todo-form__timer"
+                    name="seconds"
+                    placeholder="Sec"
+                    type="number"
+                    min={0}
+                    max={59}
+                />
+                <button className="add" type="submit" variant="contained">
+                    add task
+                </button>
             </form>
         );
     }

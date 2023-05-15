@@ -26,10 +26,12 @@ export default class TaskTimer extends Component {
             minutes,
             seconds
         );
-        this.state = { minutes, seconds, toggle: 'start' };
+        this.state = { minutes, seconds, toggle: 'stop' };
     }
 
-    componentDidMount() {}
+    componentDidMount() {
+        this.timerID = setInterval(() => this.tick(), 1000);
+    }
 
     componentWillUnmount() {
         clearInterval(this.timerID);
@@ -81,7 +83,7 @@ export default class TaskTimer extends Component {
                     minutes {minutes} seconds {seconds}
                 </span>
                 <button className="toggle-timer" type='button' onClick={(e) => this.toggle(e)}>
-                    Go
+                    Stop
                 </button>
             </div>
         );
