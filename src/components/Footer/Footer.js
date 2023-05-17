@@ -4,20 +4,18 @@ import PropTypes from 'prop-types';
 import './Footer.css';
 import TasksFilter from '../TasksFilter/TasksFilter';
 
- function Footer(props) {
+function Footer(props) {
     const { onFilter, deleteCompleted, count } = props;
-  
-        
-        return (
-            <footer className="footer">
-                <span className="todo-count">{count} item unfinished</span>
-                <TasksFilter onFilter={onFilter} />
-                <button className="clear-completed" type='button' onClick={() => deleteCompleted()}>
-                    Clear completed
-                </button>
-            </footer>
-        );
-    
+
+    return (
+        <footer className="footer">
+            <span className="todo-count">{count} item unfinished</span>
+            <TasksFilter onFilter={onFilter} />
+            <button className="clear-completed" type="button" onClick={() => deleteCompleted()}>
+                Clear completed
+            </button>
+        </footer>
+    );
 }
 
 Footer.defaultProps = {
@@ -29,6 +27,5 @@ Footer.propTypes = {
     deleteCompleted: PropTypes.func.isRequired,
     onFilter: PropTypes.func.isRequired,
 };
-
 
 export default Footer;

@@ -6,21 +6,33 @@ import PropTypes from 'prop-types';
 import Task from '../Task/Task';
 import './TaskList.css';
 
-function TaskList({ tasksFromServer, onDeleted, onToggleCompleted, editTask,saveTime }) {
+function TaskList({ tasksFromServer, onDeleted, onToggleCompleted, editTask, setIntervalId, tick, buttonName }) {
+    const filteredTasks = tasksFromServer.filter((task) => {
+        if (buttonName === 'All') return true;
+        if (buttonName === 'Active') {
+            return !task.completed;
+        }
+        if (buttonName === 'Completed') {
+            return task.completed;
+        }
+        return true;
+    });
     return (
         <ul className="todo-list">
-            {tasksFromServer.map((item) => {
+            {filteredTasks.map((item) => {
                 const { id } = item;
 
                 return (
                     <Task
                         key={id}
+                        item={item}
                         {...item}
-                        saveTime={saveTime}
-                        onDeleted={() => onDeleted(id)}
+                        onDeleted={onDeleted}
                         onToggleCompleted={onToggleCompleted}
                         editTask={editTask}
                         id={id}
+                        setIntervalId={setIntervalId}
+                        tick={tick}
                     />
                 );
             })}

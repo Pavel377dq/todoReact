@@ -1,3 +1,4 @@
+/* eslint-disable spaced-comment */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-console */
 /* eslint-disable quotes */
@@ -14,19 +15,16 @@ import './todoApp.css';
 export default class App extends Component {
     maxId = 0;
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             arr: [],
-            completedArr: [],
-            activeArr: [],
             buttonName: 'All',
         };
     }
-   
 
     deleteTask = (id) => {
-        console.log("dcscsdcds");
+        console.log('dcscsdcds');
         this.setState(({ arr }) => {
             const idx = arr.findIndex((el) => el.id === id);
             const newArray = [...arr.slice(0, idx), ...arr.slice(idx + 1)];
@@ -36,10 +34,6 @@ export default class App extends Component {
             };
         });
     };
-
-   
-
-   
 
     addTask = (text) => {
         const newItem = this.addTaskArray(text);
@@ -70,21 +64,12 @@ export default class App extends Component {
 
     onFilter = (buttonNamee) => {
         if (buttonNamee === 'Active') {
-            this.setState(({ arr }) => {
-                const newArr = arr.filter((el) => !el.completed);
-                return {
-                    activeArr: newArr,
-                    buttonName: 'Active',
-                };
+            this.setState({
+                buttonName: 'Active',
             });
         } else if (buttonNamee === 'Completed') {
-            this.setState(({ arr }) => {
-                const newArr = arr.filter((el) => el.completed);
-
-                return {
-                    completedArr: newArr,
-                    buttonName: 'Completed',
-                };
+            this.setState({
+                buttonName: 'Completed',
             });
         } else if (buttonNamee === 'All') {
             this.setState({ buttonName: 'All' });
@@ -101,7 +86,51 @@ export default class App extends Component {
         });
     };
 
+    setIntervalId = (idTask, intervalId) => {
+        this.setState(({ arr }) => ({
+            arr: arr.map((task) => {
+                if (task.id === idTask) {
+                    return {
+                        ...task,
+                        timer: {
+                            ...task.timer,
+                            intervalId,
+                        },
+                    };
+                }
+                return { ...task };
+            }),
+        }));
+    };
+
+    tick = (id) => {
+        this.setState(({ arr }) => ({
+            arr: arr.map((task) => {
+                if (task.id === id) {
+                    const { minutes, seconds, intervalId } = task.timer;
+
+                    if (minutes === 0 && seconds === 0) {
+                        clearInterval(intervalId);
+                        return { ...task, timer: { ...task.timer, intervalId: null } };
+                    }
+
+                    return {
+                        ...task,
+                        timer: {
+                            ...task.timer,
+                            minutes: seconds ? minutes : minutes - 1,
+                            seconds: seconds ? seconds - 1 : 59,
+                        },
+                    };
+                }
+
+                return { ...task };
+            }),
+        }));
+    };
+
     editTask(id, text) {
+        console.log('okeditTask');
         this.setState(({ arr }) => {
             const idx = arr.findIndex((el) => el.id === id);
             const el = arr[idx];
@@ -112,52 +141,31 @@ export default class App extends Component {
                 arr: newArray,
             };
         });
-
-        
     }
 
     addTaskArray(dataTask) {
         const date = new Date();
-        return {
+        const obj = {
             description: dataTask.description,
             creatingTime: date,
-            id: this.maxId++,
+            id: this.maxId,
             completed: false,
             minutes: dataTask.minutes,
             seconds: dataTask.seconds,
+            timer: {
+                minutes: dataTask.minutes,
+                seconds: dataTask.seconds,
+                intervalId: null,
+            },
         };
-    }
+        this.maxId++;
 
-    saveTime(id,minutes,seconds){
-        if(this.state.arr.length !==0 &&  this.state.arr.findIndex((el) => el.id === id)){
-        this.setState(({ arr }) => {
-            const idx = arr.findIndex((el) => el.id === id);
-            const el = arr[idx];
-
-            el.minutes = minutes;
-            el.seconds = seconds;
-            const newArray = [...arr.slice(0, idx), el, ...arr.slice(idx + 1)];
-
-            return {
-                arr: newArray,
-            };
-        });
-    }
+        return obj;
     }
 
     render() {
-        const { arr, activeArr, completedArr} = this.state;
+        const { arr } = this.state;
         const needToDone = arr.filter((el) => !el.completed).length;
-
-        let todoArr;
-        const { buttonName } = this.state;
-        if (buttonName === 'All') {
-            todoArr = arr;
-        } else if (buttonName === 'Active') {
-            todoArr = activeArr;
-        } else if (buttonName === 'Completed') {
-            todoArr = completedArr;
-        }
 
         return (
             <section className="todoapp">
@@ -167,11 +175,13 @@ export default class App extends Component {
                 </header>
                 <section className="main">
                     <TaskList
-                        tasksFromServer={todoArr}
+                        tasksFromServer={arr}
                         onDeleted={this.deleteTask}
                         onToggleCompleted={this.onToggleCompleted.bind(this)}
                         editTask={this.editTask.bind(this)}
-                        saveTime={this.saveTime.bind(this)}
+                        buttonName={this.state.buttonName}
+                        setIntervalId={this.setIntervalId.bind(this)}
+                        tick={this.tick.bind(this)}
                     />
                     <Footer onFilter={this.onFilter} deleteCompleted={this.deleteCompleted} count={needToDone} />
                 </section>

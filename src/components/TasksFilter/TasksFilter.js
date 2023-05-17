@@ -3,13 +3,12 @@ import './TasksFilter.css';
 import PropTypes from 'prop-types';
 
 export default class TasksFilter extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             buttonFilter: 'All',
         };
     }
-    
 
     whichButton = (evt) => {
         const { onFilter } = this.props;
@@ -46,12 +45,12 @@ export default class TasksFilter extends Component {
                     </button>
                 </li>
                 <li>
-                    <button className={classActive}  type="button" onClick={this.whichButton}>
+                    <button className={classActive} type="button" onClick={this.whichButton}>
                         Active
                     </button>
                 </li>
                 <li>
-                    <button className={classCompleted}  type="button" onClick={this.whichButton}>
+                    <button className={classCompleted} type="button" onClick={this.whichButton}>
                         Completed
                     </button>
                 </li>

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import './NewTaskForm.css';
 
 export default class NewTaskForm extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             description: '',
@@ -12,7 +12,6 @@ export default class NewTaskForm extends Component {
             minutes: '',
         };
     }
-   
 
     onSubmit = (evt) => {
         evt.preventDefault();
@@ -49,14 +48,13 @@ export default class NewTaskForm extends Component {
     render() {
         return (
             <form className="new-todo-form" onSubmit={this.onSubmit}>
-                
                 <input
                     className="new-todo"
                     onChange={this.onDescriptionChange}
                     value={this.state.description}
                     placeholder="What needs to be done?"
-                    name="description"    
-                    required                
+                    name="description"
+                    required
                     autoFocus
                 />
                 <input
