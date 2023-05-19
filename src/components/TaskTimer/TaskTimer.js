@@ -4,12 +4,6 @@ import React from 'react';
 import './TaskTimer.css';
 
 export default class TaskTimer extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.buttonRef = React.createRef();
-    }
-
     componentDidUpdate(prevProps) {
         const { item } = this.props;
         const { minutes, seconds } = item.timer;
@@ -37,33 +31,16 @@ export default class TaskTimer extends React.Component {
         setIntervalId(item.id, null);
     };
 
-    toggle() {
-        if (this.buttonRef.current.checked) {
-            this.timerPlay();
-        } else if (!this.buttonRef.current.checked) {
-            this.timerPause();
-        }
-    }
-
     render() {
-        const { minutes, seconds, id } = this.props;
-
+        const { minutes, seconds } = this.props;
         return (
             <div className="timer">
                 <span>
                     min {minutes} sec {seconds}
                 </span>
-                
-                <label className="custom-checkbox">
-                    <input
-                        ref={this.buttonRef}
-                        id={id + 100000}
-                        className="toggle-timer"
-                        type="checkbox"
-                        onChange={this.toggle.bind(this)}
-                    />
-                    <span className="custom-checkbox-switch" data-label-on="On" data-label-off="Off" />
-                </label>
+
+                <button className="icon icon-play" type="button" aria-label="timer play" onClick={this.timerPlay} />
+                <button className="icon icon-pause" type="button" aria-label="timer pause" onClick={this.timerPause} />
             </div>
         );
     }

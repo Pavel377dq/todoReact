@@ -73,7 +73,8 @@ export default class Task extends Component {
     }
 
     render() {
-        const { description, creatingTime, completed, id, item, setIntervalId, tick, toggleTaskCompleted } = this.props;
+        const { description, creatingTime, completed, id, item, setIntervalId, tick, toggleTaskCompleted, setChecked } =
+            this.props;
         const { editiValue, isDeleted } = this.state;
         // eslint-disable-next-line react/destructuring-assignment
         const { minutes, seconds } = this.props.timer;
@@ -87,6 +88,7 @@ export default class Task extends Component {
                 setIntervalId={setIntervalId}
                 isDeleted={isDeleted}
                 tick={tick}
+                setChecked={setChecked}
             />
         );
 

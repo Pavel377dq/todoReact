@@ -1,3 +1,4 @@
+/* eslint-disable react/sort-comp */
 /* eslint-disable react/jsx-no-bind */
 import { Component } from 'react';
 
@@ -17,17 +18,6 @@ export default class App extends Component {
             buttonName: 'All',
         };
     }
-
-    deleteTask = (id) => {
-        this.setState(({ arr }) => {
-            const idx = arr.findIndex((el) => el.id === id);
-            const newArray = [...arr.slice(0, idx), ...arr.slice(idx + 1)];
-
-            return {
-                arr: newArray,
-            };
-        });
-    };
 
     changeTaskField = (id, field, value) => {
         this.setState(({ arr }) => ({
@@ -49,6 +39,21 @@ export default class App extends Component {
 
     toggleTaskEditMode = (id, value) => {
         this.changeTaskField(id, 'editMode', value);
+    };
+
+    setChecked(isChecked, id) {
+        this.changeTaskField(id, 'checked', isChecked);
+    }
+
+    deleteTask = (id) => {
+        this.setState(({ arr }) => {
+            const idx = arr.findIndex((el) => el.id === id);
+            const newArray = [...arr.slice(0, idx), ...arr.slice(idx + 1)];
+
+            return {
+                arr: newArray,
+            };
+        });
     };
 
     addTask = (text) => {
@@ -162,6 +167,7 @@ export default class App extends Component {
                 intervalId: null,
             },
             editMode: false,
+            checked: false,
         };
         this.maxId += 1;
 
@@ -189,6 +195,7 @@ export default class App extends Component {
                         changeTaskText={this.changeTaskText}
                         toggleTaskEditMode={this.toggleTaskEditMode}
                         toggleTaskCompleted={this.toggleTaskCompleted}
+                        setChecked={this.setChecked.bind(this)}
                     />
                     <Footer onFilter={this.onFilter} deleteCompleted={this.deleteCompleted} count={needToDone} />
                 </section>

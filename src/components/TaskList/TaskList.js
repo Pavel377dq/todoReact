@@ -16,6 +16,7 @@ function TaskList({
     changeTaskText,
     toggleTaskEditMode,
     toggleTaskCompleted,
+    setChecked,
 }) {
     const filteredTasks = tasksFromServer.filter((task) => {
         if (buttonName === 'All') return true;
@@ -34,6 +35,7 @@ function TaskList({
 
                 return (
                     <Task
+                        setChecked={setChecked}
                         toggleTaskEditMode={toggleTaskEditMode}
                         changeTaskText={changeTaskText}
                         key={id}
@@ -54,7 +56,7 @@ function TaskList({
 
 TaskList.propTypes = {
     tasksFromServer: PropTypes.array,
-    onDeleted: PropTypes.func.isRequired
+    onDeleted: PropTypes.func.isRequired,
 };
 
 TaskList.defaultProps = {
