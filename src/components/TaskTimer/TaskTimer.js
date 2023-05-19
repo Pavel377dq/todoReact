@@ -1,13 +1,13 @@
-/* eslint-disable spaced-comment */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-plusplus */
-import { Component } from 'react';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React from 'react';
+
 import './TaskTimer.css';
 
-export default class TaskTimer extends Component {
+export default class TaskTimer extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { toggle: 'start' };
+
+        this.buttonRef = React.createRef();
     }
 
     componentDidUpdate(prevProps) {
@@ -38,40 +38,32 @@ export default class TaskTimer extends Component {
     };
 
     toggle() {
-        const button = document.getElementById(this.props.id + 100000);
-        const { toggle } = this.state;
-
-        if (toggle === 'start') {
-            this.setState({
-                toggle: 'stop',
-            });
-            button.innerText = 'stop';
+        if (this.buttonRef.current.checked) {
             this.timerPlay();
-        } else if (toggle === 'stop') {
-            this.setState({
-                toggle: 'start',
-            });
-            button.innerText = 'start';
+        } else if (!this.buttonRef.current.checked) {
             this.timerPause();
         }
     }
 
     render() {
-        const { minutes, seconds } = this.props;
-        
+        const { minutes, seconds, id } = this.props;
+
         return (
             <div className="timer">
                 <span>
-                    minutes {minutes} seconds {seconds}
+                    min {minutes} sec {seconds}
                 </span>
-                <button
-                    id={this.props.id + 100000}
-                    className="toggle-timer"
-                    type="button"
-                    onClick={this.toggle.bind(this)}
-                >
-                    Start
-                </button>
+                
+                <label className="custom-checkbox">
+                    <input
+                        ref={this.buttonRef}
+                        id={id + 100000}
+                        className="toggle-timer"
+                        type="checkbox"
+                        onChange={this.toggle.bind(this)}
+                    />
+                    <span className="custom-checkbox-switch" data-label-on="On" data-label-off="Off" />
+                </label>
             </div>
         );
     }

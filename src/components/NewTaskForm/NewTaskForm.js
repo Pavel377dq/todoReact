@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-autofocus */
-/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import './NewTaskForm.css';
 
@@ -46,21 +44,21 @@ export default class NewTaskForm extends Component {
     };
 
     render() {
+        const { description, minutes, seconds } = this.state;
         return (
             <form className="new-todo-form" onSubmit={this.onSubmit}>
                 <input
                     className="new-todo"
                     onChange={this.onDescriptionChange}
-                    value={this.state.description}
+                    value={description}
                     placeholder="What needs to be done?"
                     name="description"
                     required
-                    autoFocus
                 />
                 <input
                     onChange={this.onDescriptionChange}
                     name="minutes"
-                    value={this.state.minutes}
+                    value={minutes}
                     className="new-todo-form__timer"
                     placeholder="Min"
                     type="number"
@@ -69,7 +67,7 @@ export default class NewTaskForm extends Component {
                 />
                 <input
                     onChange={this.onDescriptionChange}
-                    value={this.state.seconds}
+                    value={seconds}
                     className="new-todo-form__timer"
                     name="seconds"
                     placeholder="Sec"

@@ -1,9 +1,4 @@
-/* eslint-disable spaced-comment */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-console */
-/* eslint-disable quotes */
 /* eslint-disable react/jsx-no-bind */
-/* eslint-disable no-plusplus */
 import { Component } from 'react';
 
 import TaskList from '../TaskList/TaskList';
@@ -24,7 +19,6 @@ export default class App extends Component {
     }
 
     deleteTask = (id) => {
-        console.log('dcscsdcds');
         this.setState(({ arr }) => {
             const idx = arr.findIndex((el) => el.id === id);
             const newArray = [...arr.slice(0, idx), ...arr.slice(idx + 1)];
@@ -33,6 +27,28 @@ export default class App extends Component {
                 arr: newArray,
             };
         });
+    };
+
+    changeTaskField = (id, field, value) => {
+        this.setState(({ arr }) => ({
+            arr: arr.map((item) => {
+                if (item.id === id) {
+                    return {
+                        ...item,
+                        [field]: value,
+                    };
+                }
+                return { ...item };
+            }),
+        }));
+    };
+
+    changeTaskText = (id, text) => {
+        this.changeTaskField(id, 'description', text);
+    };
+
+    toggleTaskEditMode = (id, value) => {
+        this.changeTaskField(id, 'editMode', value);
     };
 
     addTask = (text) => {
@@ -47,19 +63,8 @@ export default class App extends Component {
         });
     };
 
-    onToggleCompleted = (id) => {
-        this.setState(({ arr }) => {
-            const idx = arr.findIndex((el) => el.id === id);
-
-            const oldTask = arr[idx];
-            const updateTask = { ...oldTask, completed: !oldTask.completed };
-
-            const newArray = [...arr.slice(0, idx), updateTask, ...arr.slice(idx + 1)];
-
-            return {
-                arr: newArray,
-            };
-        });
+    toggleTaskCompleted = (id, value) => {
+        this.changeTaskField(id, 'completed', value);
     };
 
     onFilter = (buttonNamee) => {
@@ -130,7 +135,6 @@ export default class App extends Component {
     };
 
     editTask(id, text) {
-        console.log('okeditTask');
         this.setState(({ arr }) => {
             const idx = arr.findIndex((el) => el.id === id);
             const el = arr[idx];
@@ -157,14 +161,15 @@ export default class App extends Component {
                 seconds: dataTask.seconds,
                 intervalId: null,
             },
+            editMode: false,
         };
-        this.maxId++;
+        this.maxId += 1;
 
         return obj;
     }
 
     render() {
-        const { arr } = this.state;
+        const { arr, buttonName } = this.state;
         const needToDone = arr.filter((el) => !el.completed).length;
 
         return (
@@ -177,11 +182,13 @@ export default class App extends Component {
                     <TaskList
                         tasksFromServer={arr}
                         onDeleted={this.deleteTask}
-                        onToggleCompleted={this.onToggleCompleted.bind(this)}
                         editTask={this.editTask.bind(this)}
-                        buttonName={this.state.buttonName}
+                        buttonName={buttonName}
                         setIntervalId={this.setIntervalId.bind(this)}
                         tick={this.tick.bind(this)}
+                        changeTaskText={this.changeTaskText}
+                        toggleTaskEditMode={this.toggleTaskEditMode}
+                        toggleTaskCompleted={this.toggleTaskCompleted}
                     />
                     <Footer onFilter={this.onFilter} deleteCompleted={this.deleteCompleted} count={needToDone} />
                 </section>

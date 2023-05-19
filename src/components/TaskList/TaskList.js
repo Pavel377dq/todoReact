@@ -6,7 +6,17 @@ import PropTypes from 'prop-types';
 import Task from '../Task/Task';
 import './TaskList.css';
 
-function TaskList({ tasksFromServer, onDeleted, onToggleCompleted, editTask, setIntervalId, tick, buttonName }) {
+function TaskList({
+    tasksFromServer,
+    onDeleted,
+    editTask,
+    setIntervalId,
+    tick,
+    buttonName,
+    changeTaskText,
+    toggleTaskEditMode,
+    toggleTaskCompleted,
+}) {
     const filteredTasks = tasksFromServer.filter((task) => {
         if (buttonName === 'All') return true;
         if (buttonName === 'Active') {
@@ -24,15 +34,17 @@ function TaskList({ tasksFromServer, onDeleted, onToggleCompleted, editTask, set
 
                 return (
                     <Task
+                        toggleTaskEditMode={toggleTaskEditMode}
+                        changeTaskText={changeTaskText}
                         key={id}
                         item={item}
                         {...item}
                         onDeleted={onDeleted}
-                        onToggleCompleted={onToggleCompleted}
                         editTask={editTask}
                         id={id}
                         setIntervalId={setIntervalId}
                         tick={tick}
+                        toggleTaskCompleted={toggleTaskCompleted}
                     />
                 );
             })}
@@ -42,8 +54,7 @@ function TaskList({ tasksFromServer, onDeleted, onToggleCompleted, editTask, set
 
 TaskList.propTypes = {
     tasksFromServer: PropTypes.array,
-    onDeleted: PropTypes.func.isRequired,
-    onToggleCompleted: PropTypes.func.isRequired,
+    onDeleted: PropTypes.func.isRequired
 };
 
 TaskList.defaultProps = {
