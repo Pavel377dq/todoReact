@@ -1,82 +1,53 @@
-import { Component } from 'react';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React from 'react';
+
 import './TaskTimer.css';
 
-export default class TaskTimer extends Component {
-    constructor(props) {
-        super(props);
+export default class TaskTimer extends React.Component {
+    componentDidUpdate(prevProps) {
+        const { item } = this.props;
+        const { minutes, seconds } = item.timer;
+        const { item: prevTask } = prevProps;
+        const { minutes: prevMin, seconds: prevSec } = prevTask.timer;
 
-        const { minutes, seconds } = this.props;
-
-        this.timerDate = new Date();
-        this.count = 0;
-        this.subtrahend = new Date(
-            this.timerDate.getFullYear(),
-            this.timerDate.getMonth(),
-            this.timerDate.getDate(),
-            this.timerDate.getHours(),
-            0,
-            0
-        );
-        this.deadline = new Date(
-            this.timerDate.getFullYear(),
-            this.timerDate.getMonth(),
-            this.timerDate.getDate(),
-            this.timerDate.getHours(),
-            minutes,
-            seconds
-        );
-        this.state = { minutes: minutes, seconds: seconds, toggle: 'start' };
-    }
-
-    componentDidMount() {}
-
-    componentWillUnmount() {
-        clearInterval(this.timerID);
-    }
-
-    tick() {
-        if (this.state.minutes === 0 && this.state.seconds === 0) {
-            clearInterval(this.timerID);
-            return;
-        }
-
-        this.count++;
-        this.setState({
-            minutes: Math.floor((this.deadline - this.subtrahend - this.count * 1000) / (1000 * 60)),
-            seconds: Math.floor((this.deadline - this.subtrahend - this.count * 1000) / 1000) % 60,
-        });
-    }
-
-    toggle(evt) {
-        evt.preventDefault();
-        const button = document.querySelector('.toggle-timer');
-
-        if (this.state.toggle === 'start') {
-            this.setState({
-                toggle: 'stop',
-            });
-            button.innerText = 'stop';
-            this.timerID = setInterval(() => this.tick(), 1000);
-        } else if (this.state.toggle === 'stop') {
-            this.setState({
-                toggle: 'start',
-            });
-            button.innerText = 'Go';
-
-            clearInterval(this.timerID);
+        if (minutes !== prevMin || seconds !== prevSec) {
+            if (minutes <= 0 && seconds <= 0) this.timerPause();
         }
     }
+
+    timerPlay = () => {
+        const { tick, item, setIntervalId } = this.props;
+        const { minutes, seconds, intervalId } = item.timer;
+
+        if (!intervalId && !(minutes <= 0 && seconds <= 0)) {
+            const id = setInterval(() => tick(item.id), 1000);
+            setIntervalId(item.id, id);
+        }
+    };
+
+    timerPause = () => {
+        const { item, setIntervalId } = this.props;
+        clearInterval(item.timer.intervalId);
+        setIntervalId(item.id, null);
+    };
 
     render() {
+        const { minutes, seconds } = this.props;
         return (
             <div className="timer">
                 <span>
-                    minutes {this.state.minutes} seconds {this.state.seconds}
+                    min {minutes} sec {seconds}
                 </span>
-                <button className="toggle-timer" onClick={(e) => this.toggle(e)}>
-                    Go
-                </button>
+
+                <button className="icon icon-play" type="button" aria-label="timer play" onClick={this.timerPlay} />
+                <button className="icon icon-pause" type="button" aria-label="timer pause" onClick={this.timerPause} />
             </div>
         );
     }
 }
+
+TaskTimer.defaultProps = {
+    id: 999999,
+    minutes: 0,
+    seconds: 5,
+};

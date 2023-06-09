@@ -1,3 +1,5 @@
+/* eslint-disable react/sort-comp */
+/* eslint-disable react/jsx-no-bind */
 import { Component } from 'react';
 
 import TaskList from '../TaskList/TaskList';
@@ -9,12 +11,39 @@ import './todoApp.css';
 export default class App extends Component {
     maxId = 0;
 
-    state = {
-        arr: [],
-        completedArr: [],
-        activeArr: [],
-        buttonName: 'All',
+    constructor(props) {
+        super(props);
+        this.state = {
+            arr: [],
+            buttonName: 'All',
+        };
+    }
+
+    changeTaskField = (id, field, value) => {
+        this.setState(({ arr }) => ({
+            arr: arr.map((item) => {
+                if (item.id === id) {
+                    return {
+                        ...item,
+                        [field]: value,
+                    };
+                }
+                return { ...item };
+            }),
+        }));
     };
+
+    changeTaskText = (id, text) => {
+        this.changeTaskField(id, 'description', text);
+    };
+
+    toggleTaskEditMode = (id, value) => {
+        this.changeTaskField(id, 'editMode', value);
+    };
+
+    setChecked(isChecked, id) {
+        this.changeTaskField(id, 'checked', isChecked);
+    }
 
     deleteTask = (id) => {
         this.setState(({ arr }) => {
@@ -26,32 +55,6 @@ export default class App extends Component {
             };
         });
     };
-
-    editTask(id, text) {
-        this.setState(({ arr }) => {
-            const idx = arr.findIndex((el) => el.id === id);
-            const el = arr[idx];
-            el.description = text;
-            const newArray = [...arr.slice(0, idx), el, ...arr.slice(idx + 1)];
-
-            return {
-                arr: newArray,
-            };
-        });
-
-        console.log(this.state.arr);
-    }
-    addTaskArray(dataTask) {
-        const date = new Date();
-        return {
-            description: dataTask.description,
-            creatingTime: date,
-            id: this.maxId++,
-            completed: false,
-            minutes: dataTask.minutes,
-            seconds: dataTask.seconds,
-        };
-    }
 
     addTask = (text) => {
         const newItem = this.addTaskArray(text);
@@ -65,38 +68,18 @@ export default class App extends Component {
         });
     };
 
-    onToggleCompleted = (id) => {
-        this.setState(({ arr }) => {
-            const idx = arr.findIndex((el) => el.id === id);
-
-            const oldTask = arr[idx];
-            const updateTask = { ...oldTask, completed: !oldTask.completed };
-
-            const newArray = [...arr.slice(0, idx), updateTask, ...arr.slice(idx + 1)];
-
-            return {
-                arr: newArray,
-            };
-        });
+    toggleTaskCompleted = (id, value) => {
+        this.changeTaskField(id, 'completed', value);
     };
 
     onFilter = (buttonNamee) => {
         if (buttonNamee === 'Active') {
-            this.setState(({ arr }) => {
-                const newArr = arr.filter((el) => !el.completed);
-                return {
-                    activeArr: newArr,
-                    buttonName: 'Active',
-                };
+            this.setState({
+                buttonName: 'Active',
             });
         } else if (buttonNamee === 'Completed') {
-            this.setState(({ arr }) => {
-                const newArr = arr.filter((el) => el.completed);
-
-                return {
-                    completedArr: newArr,
-                    buttonName: 'Completed',
-                };
+            this.setState({
+                buttonName: 'Completed',
             });
         } else if (buttonNamee === 'All') {
             this.setState({ buttonName: 'All' });
@@ -113,18 +96,87 @@ export default class App extends Component {
         });
     };
 
-    render() {
-        const needToDone = this.state.arr.filter((el) => !el.completed).length;
+    setIntervalId = (idTask, intervalId) => {
+        this.setState(({ arr }) => ({
+            arr: arr.map((task) => {
+                if (task.id === idTask) {
+                    return {
+                        ...task,
+                        timer: {
+                            ...task.timer,
+                            intervalId,
+                        },
+                    };
+                }
+                return { ...task };
+            }),
+        }));
+    };
 
-        let todoArr;
-        const { buttonName } = this.state;
-        if (buttonName === 'All') {
-            todoArr = this.state.arr;
-        } else if (buttonName === 'Active') {
-            todoArr = this.state.activeArr;
-        } else if (buttonName === 'Completed') {
-            todoArr = this.state.completedArr;
-        }
+    tick = (id) => {
+        this.setState(({ arr }) => ({
+            arr: arr.map((task) => {
+                if (task.id === id) {
+                    const { minutes, seconds, intervalId } = task.timer;
+
+                    if (minutes === 0 && seconds === 0) {
+                        clearInterval(intervalId);
+                        return { ...task, timer: { ...task.timer, intervalId: null } };
+                    }
+
+                    return {
+                        ...task,
+                        timer: {
+                            ...task.timer,
+                            minutes: seconds ? minutes : minutes - 1,
+                            seconds: seconds ? seconds - 1 : 59,
+                        },
+                    };
+                }
+
+                return { ...task };
+            }),
+        }));
+    };
+
+    editTask(id, text) {
+        this.setState(({ arr }) => {
+            const idx = arr.findIndex((el) => el.id === id);
+            const el = arr[idx];
+            el.description = text;
+            const newArray = [...arr.slice(0, idx), el, ...arr.slice(idx + 1)];
+
+            return {
+                arr: newArray,
+            };
+        });
+    }
+
+    addTaskArray(dataTask) {
+        const date = new Date();
+        const obj = {
+            description: dataTask.description,
+            creatingTime: date,
+            id: this.maxId,
+            completed: false,
+            minutes: dataTask.minutes,
+            seconds: dataTask.seconds,
+            timer: {
+                minutes: dataTask.minutes,
+                seconds: dataTask.seconds,
+                intervalId: null,
+            },
+            editMode: false,
+            checked: false,
+        };
+        this.maxId += 1;
+
+        return obj;
+    }
+
+    render() {
+        const { arr, buttonName } = this.state;
+        const needToDone = arr.filter((el) => !el.completed).length;
 
         return (
             <section className="todoapp">
@@ -134,10 +186,16 @@ export default class App extends Component {
                 </header>
                 <section className="main">
                     <TaskList
-                        tasksFromServer={todoArr}
+                        tasksFromServer={arr}
                         onDeleted={this.deleteTask}
-                        onToggleCompleted={this.onToggleCompleted.bind(this)}
                         editTask={this.editTask.bind(this)}
+                        buttonName={buttonName}
+                        setIntervalId={this.setIntervalId.bind(this)}
+                        tick={this.tick.bind(this)}
+                        changeTaskText={this.changeTaskText}
+                        toggleTaskEditMode={this.toggleTaskEditMode}
+                        toggleTaskCompleted={this.toggleTaskCompleted}
+                        setChecked={this.setChecked.bind(this)}
                     />
                     <Footer onFilter={this.onFilter} deleteCompleted={this.deleteCompleted} count={needToDone} />
                 </section>

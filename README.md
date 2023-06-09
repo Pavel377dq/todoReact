@@ -1,8 +1,9 @@
 My Todo
 
-https://todo-pavel377dq.vercel.app/
+хостинг vercel https://todo-pavel377dq.vercel.app 
 
 Для .eslintrc.json
+
   Правила в rules сильней чем в extends,
  чтобы не затиралось "tabWidth": 4 в .prettierrc,
  я убрал indent: [2,error] в .eslintrc.json

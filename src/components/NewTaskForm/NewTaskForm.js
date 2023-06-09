@@ -2,16 +2,20 @@ import React, { Component } from 'react';
 import './NewTaskForm.css';
 
 export default class NewTaskForm extends Component {
-    state = {
-        description: '',
-        seconds: '',
-        minutes: '',
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            description: '',
+            seconds: '',
+            minutes: '',
+        };
+    }
 
     onSubmit = (evt) => {
         evt.preventDefault();
         const { ...props } = this.state;
-        this.props.onAddTask(props);
+        const newLocal = this;
+        newLocal.props.onAddTask(props);
         this.setState({
             description: '',
             seconds: '',
@@ -40,33 +44,40 @@ export default class NewTaskForm extends Component {
     };
 
     render() {
+        const { description, minutes, seconds } = this.state;
         return (
             <form className="new-todo-form" onSubmit={this.onSubmit}>
                 <input
+                    className="new-todo"
                     onChange={this.onDescriptionChange}
-                    name="minutes"
-                    value={this.state.minutes}
-                    className="new-todo-form__timer"
-                    placeholder="Min"
+                    value={description}
+                    placeholder="What needs to be done?"
+                    name="description"
+                    required
                 />
                 <input
                     onChange={this.onDescriptionChange}
-                    value={this.state.seconds}
+                    name="minutes"
+                    value={minutes}
+                    className="new-todo-form__timer"
+                    placeholder="Min"
+                    type="number"
+                    min={0}
+                    max={59}
+                />
+                <input
+                    onChange={this.onDescriptionChange}
+                    value={seconds}
                     className="new-todo-form__timer"
                     name="seconds"
                     placeholder="Sec"
+                    type="number"
+                    min={0}
+                    max={59}
                 />
-                <button type="submit" variant="contained">
-                    Add Task
+                <button className="add" type="submit" variant="contained">
+                    add task
                 </button>
-                <input
-                    className="new-todo"
-                    onChange={this.onDescriptionChange}
-                    value={this.state.description}
-                    placeholder="What needs to be done?"
-                    name="description"
-                    autoFocus
-                />
             </form>
         );
     }

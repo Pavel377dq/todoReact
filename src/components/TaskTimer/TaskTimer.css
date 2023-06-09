@@ -1,18 +1,36 @@
 .timer {
-    width: 450px !important;
+    width: 400px !important;
     height: 50px !important;
     color: gray;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 15px 85px 15px 60px;
+    justify-content: flex-start;
+    padding-left: 60px;
 }
 
-.toggle-timer {
-    width: 50px !important;
-    height: 50px !important;
-    color: white;
-    background-color: #737373;
-    border-radius: 50%;
-    margin-right: 50px;
+.todo-list li .icon-pause,
+.todo-list li .icon-play {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+
+.todo-list li .icon-play {
+    font-size: 15px;
+
+    right: 80px;
+}
+
+.todo-list li .icon-pause {
+    font-size: 15px;
+    position: relative !important;
+    left: 190px;
+}
+
+.icon-pause:after {
+    content: '⏸';
+}
+
+.icon-play:after {
+    content: '▶';
 }
